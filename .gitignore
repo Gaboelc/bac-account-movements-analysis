@@ -1,0 +1,7 @@
+venv/
+include/
+Lib/
+Scripts/
+data/
+*.db
+data.csv
