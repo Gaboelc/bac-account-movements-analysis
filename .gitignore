@@ -5,3 +5,4 @@ Scripts/
 data/
 *.db
 data.csv
+.vscode
