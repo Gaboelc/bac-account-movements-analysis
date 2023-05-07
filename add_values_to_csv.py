@@ -30,6 +30,11 @@ for csv_file in csv_files:
     all_data_cleaned.append(data_cleaned)
 
     shutil.move(os.path.join(to_be_cleaned_folder_path, csv_file), os.path.join(old_folder_path, csv_file))
+    print(f'''
+          -----------------------------------------------------------------------
+          {csv_file} limpiado
+          -----------------------------------------------------------------------
+          ''')
 
 data_file_path = os.path.join(folder_path, 'data.csv')
 if os.path.exists(data_file_path):
