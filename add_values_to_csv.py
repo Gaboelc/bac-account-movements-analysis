@@ -1,6 +1,13 @@
 import os
+import re
 import pandas as pd
 import shutil
+
+def clean_special_characters(text):
+    cleaned_text = re.sub(r'[-*,.@]', '', text)
+    cleaned_text = re.sub(r'_+$', '', cleaned_text)
+    cleaned_text = re.sub(r'_', ' ', cleaned_text)
+    return cleaned_text
 
 folder_path = './data'
 to_be_cleaned_folder_path = os.path.join(folder_path, 'to_be_cleaned')
@@ -25,6 +32,11 @@ for csv_file in csv_files:
 
     index_to_drop = data[data['Fecha de Transacción'] == 'Resumen de Estado Bancario'].index
     data_cleaned = data.drop(data.index[index_to_drop[0]:])
+    
+    data_cleaned['Descripción de Transacción'] = data_cleaned['Descripción de Transacción'].str.strip()
+    data_cleaned['Fecha de Transacción'] = pd.to_datetime(data_cleaned['Fecha de Transacción'], format='%d/%m/%Y')
+    
+    data_cleaned['Descripción de Transacción'] = data_cleaned['Descripción de Transacción'].apply(clean_special_characters)
 
     data_cleaned.to_csv(os.path.join(to_be_cleaned_folder_path, csv_file[:-4] + '_cleaned.csv'), index=False)
     all_data_cleaned.append(data_cleaned)
